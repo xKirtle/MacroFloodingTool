@@ -1,8 +1,9 @@
-﻿using System.Windows;
+﻿using MacroFloodingTool.Properties;
+using System.Windows;
 using System.Windows.Controls;
 using WindowsInput;
 using WindowsInput.Native;
-
+using System.Diagnostics;
 
 namespace Flood
 {
@@ -22,11 +23,41 @@ namespace Flood
             _listener.OnKeyPressed += _listener_OnKeyPressed;
 
             _listener.HookKeyboard();
+
+            //Load all the strings into the Text Boxes
+            TF1.Text = Settings.Default.T1;
+            TF2.Text = Settings.Default.T2;
+            TF3.Text = Settings.Default.T3;
+            TF4.Text = Settings.Default.T4;
+            TF5.Text = Settings.Default.T5;
+            TF6.Text = Settings.Default.T6;
+            TF7.Text = Settings.Default.T7;
+            TF8.Text = Settings.Default.T8;
+            TF9.Text = Settings.Default.T9;
+            TF10.Text = Settings.Default.T10;
+            TF11.Text = Settings.Default.T11;
+            TF12.Text = Settings.Default.T12;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) //Unhooks the listener when the window closes
         {
             _listener.UnHookKeyboard();
+
+            //Save all the strings in the Text Boxes
+            Settings.Default.T1 = TF1.Text;
+            Settings.Default.T2 = TF2.Text;
+            Settings.Default.T3 = TF3.Text;
+            Settings.Default.T4 = TF4.Text;
+            Settings.Default.T5 = TF5.Text;
+            Settings.Default.T6 = TF6.Text;
+            Settings.Default.T7 = TF7.Text;
+            Settings.Default.T8 = TF8.Text;
+            Settings.Default.T9 = TF9.Text;
+            Settings.Default.T10 = TF10.Text;
+            Settings.Default.T11 = TF11.Text;
+            Settings.Default.T12 = TF12.Text;
+
+            Settings.Default.Save();
         }
 
         private void _listener_OnKeyPressed(object sender, KeyPressedArgs e) 
@@ -187,6 +218,16 @@ namespace Flood
             TextBoxes.Visibility = Collapsed;
             HabboImageHome.Visibility = Collapsed;
             AboutTabContent.Visibility = Visible;
+        }
+
+        private void TextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Process.Start("https://kirtle.eu");
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
         }
     }
 }

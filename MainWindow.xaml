@@ -72,6 +72,9 @@
             </StackPanel>
             <TextBlock Name="Website" Margin="110,-10,0,21" Background="Transparent" TextWrapping="Wrap" 
                      Cursor="Arrow" Visibility="Visible" FontSize="11" VerticalAlignment="Center">
+                <Hyperlink Name="hyperlink" NavigateUri="https://kirtle.eu" RequestNavigate="Hyperlink_RequestNavigate" >
+                    www.kirtle.eu
+                </Hyperlink>
             </TextBlock>
         </StackPanel>
     </Grid>
