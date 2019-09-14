@@ -1,12 +1,78 @@
-﻿<Window x:Class="MacroFloodingTool.MainWindow"
+﻿<Window x:Class="Flood.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MacroFloodingTool"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Habbo Flooding" Height="200" Width="200" Background="{DynamicResource WindowBackgroundBrush}" ResizeMode="NoResize"
+        Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <!-- ComboBox Items List-->
+        <x:Array x:Key="ComboBoxItems" Type="sys:String">
+            <sys:String>Flood (F1)</sys:String>
+            <sys:String>Flood (F2)</sys:String>
+            <sys:String>Flood (F3)</sys:String>
+            <sys:String>Flood (F4)</sys:String>
+            <sys:String>Flood (F5)</sys:String>
+            <sys:String>Flood (F6)</sys:String>
+            <sys:String>Flood (F7)</sys:String>
+            <sys:String>Flood (F8)</sys:String>
+            <sys:String>Flood (F9)</sys:String>
+            <sys:String>Flood (F10)</sys:String>
+            <sys:String>Flood (F11)</sys:String>
+            <sys:String>Flood (F12)</sys:String>
+        </x:Array>
+
+        <!-- Background-->
+        <LinearGradientBrush x:Key="WindowBackgroundBrush">
+            <GradientStop Offset="0" Color="Silver"/>
+            <GradientStop Offset="1" Color="Gray"/>
+        </LinearGradientBrush>
+
+
+    </Window.Resources>
+
     <Grid>
-        
+        <!-- Home Panel -->
+        <StackPanel Name="HomeTabContent" Visibility="Visible">
+            <!-- ComboBox -->
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="ComboBox" ItemsSource="{StaticResource ComboBoxItems}" SelectionChanged="ComboBox_SelectionChanged"
+                      Margin="10,10,10,0" Width="105" Height="22.5" MaxDropDownHeight="105" Visibility="Visible" 
+                      ToolTip="Use o Ctrl e o Shift para alterar pelas várias caixas de texto"/>
+                <Button Width="50" Height="22.5" Margin="0,10,10,0" Content="About" Click="Button_Click"/>
+            </StackPanel>
+
+            <!-- TextBoxes-->
+            <StackPanel x:Name="TextBoxes" Margin="5" Visibility="Collapsed">
+                <TextBox Margin="5,5,4,0" x:Name="TF1" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF2" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF3" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF4" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF5" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF6" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF7" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF8" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF9" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF10" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF11" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+                <TextBox Margin="5,5,4,0" x:Name="TF12" Visibility="Collapsed" Height="105" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" MaxLength="100"/>
+            </StackPanel>
+            <Image Name="HabboImageHome" Width="45" Source="images\habb2x.png" Margin="0,10,0,0" Visibility="Visible" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- About Panel -->
+        <StackPanel x:Name="AboutTabContent" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="45" Source="images\habb2x.png" Margin="5,41,0,0" HorizontalAlignment="Left"/>
+                <TextBox Width="120" Margin="10,50,0,21" Background="Transparent" IsReadOnly="True" Foreground="White" TextWrapping="Wrap" 
+                     BorderThickness="0" Cursor="Arrow" Visibility="Visible" FontSize="11" VerticalAlignment="Center" 
+                     SelectionBrush="Transparent" Text="Made with &lt;3 by Kirtle.&#xA;Discord: Kirtle#0498"/>
+            </StackPanel>
+            <TextBlock Name="Website" Margin="110,-10,0,21" Background="Transparent" TextWrapping="Wrap" 
+                     Cursor="Arrow" Visibility="Visible" FontSize="11" VerticalAlignment="Center">
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </Window>
