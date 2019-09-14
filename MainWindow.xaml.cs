@@ -1,5 +1,4 @@
-﻿using MacroFloodingTool.Properties;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using WindowsInput;
 using WindowsInput.Native;
