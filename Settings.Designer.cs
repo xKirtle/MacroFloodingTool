@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Flood
+namespace MacroFloodingTool
 {
 
 

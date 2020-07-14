@@ -1,20 +1,56 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Configuration;
+using System.Windows.Markup;
 using System.Windows.Controls;
+using System.Collections.Generic;
 using WindowsInput;
 using WindowsInput.Native;
-using System.Diagnostics;
 
-namespace Flood
+namespace MacroFloodingTool
 {
     public partial class MainWindow : Window
     {
-        InputSimulator inp = new InputSimulator();
-
+        private readonly InputSimulator inp;
+        private readonly List<TextBox> _textBoxes;
         private LowLevelKeyboardListener _listener;
+        public Visibility Visible { get { return Visibility.Visible; } }
+
+        public Visibility Collapsed { get { return Visibility.Collapsed; } }
 
         public MainWindow()
         {
             InitializeComponent();
+            inp = new InputSimulator();
+
+            //HotKeys array for the comboBox
+            string[] hotKeys = new string[12];
+            for (int i = 1; i < 13; i++)
+                hotKeys[i - 1] = "F" + i;
+            ArrayExtension arrayExtension = new ArrayExtension(hotKeys);
+            ComboBox.ItemsSource = arrayExtension.Items;
+
+            //TextBoxes
+            _textBoxes = new List<TextBox>(12);
+            for (int i = 1; i < 13; i++)
+            {
+                TextBox textBox = new TextBox
+                {
+                    Margin = new Thickness(5, 5, 4, 0),
+                    Name = "TB" + i,
+                    Visibility = Collapsed,
+                    Height = 105,
+                    TextWrapping = TextWrapping.Wrap,
+                    VerticalScrollBarVisibility = (ScrollBarVisibility)Visible,
+                    AcceptsReturn = true,
+                    MaxLength = 100
+                };
+
+                _textBoxes.Add(textBox);
+
+                //Adding it to the xaml TextBoxes StackPanel
+                TextBoxes.Children.Add(_textBoxes[i - 1]);
+            }
         }
         private void Window_Loaded(object sender, RoutedEventArgs e) //Hooks the keyboard listener to a method.
         {
@@ -24,18 +60,9 @@ namespace Flood
             _listener.HookKeyboard();
 
             //Load all the strings into the Text Boxes
-            TF1.Text = Settings.Default.T1;
-            TF2.Text = Settings.Default.T2;
-            TF3.Text = Settings.Default.T3;
-            TF4.Text = Settings.Default.T4;
-            TF5.Text = Settings.Default.T5;
-            TF6.Text = Settings.Default.T6;
-            TF7.Text = Settings.Default.T7;
-            TF8.Text = Settings.Default.T8;
-            TF9.Text = Settings.Default.T9;
-            TF10.Text = Settings.Default.T10;
-            TF11.Text = Settings.Default.T11;
-            TF12.Text = Settings.Default.T12;
+            int counter = 0;
+            foreach (SettingsProperty property in Settings.Default.Properties)
+                _textBoxes[counter++].Text = Settings.Default[property.Name].ToString();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) //Unhooks the listener when the window closes
@@ -43,190 +70,54 @@ namespace Flood
             _listener.UnHookKeyboard();
 
             //Save all the strings in the Text Boxes
-            Settings.Default.T1 = TF1.Text;
-            Settings.Default.T2 = TF2.Text;
-            Settings.Default.T3 = TF3.Text;
-            Settings.Default.T4 = TF4.Text;
-            Settings.Default.T5 = TF5.Text;
-            Settings.Default.T6 = TF6.Text;
-            Settings.Default.T7 = TF7.Text;
-            Settings.Default.T8 = TF8.Text;
-            Settings.Default.T9 = TF9.Text;
-            Settings.Default.T10 = TF10.Text;
-            Settings.Default.T11 = TF11.Text;
-            Settings.Default.T12 = TF12.Text;
-
-            Settings.Default.Save();
-        }
-
-        private void _listener_OnKeyPressed(object sender, KeyPressedArgs e) 
-        //if KeyPressed equals to any of the keys in the switch statement, the text on each corresponding textbox is "typed"
-        {
-            var key = e.KeyPressed.ToString();
-            var ret = VirtualKeyCode.RETURN;
-
-            switch (key)
+            int counter = 0;
+            foreach (SettingsProperty property in Settings.Default.Properties)
             {
-                case "F1":
-                    try { inp.Keyboard.TextEntry(TF1.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F2":
-                    try { inp.Keyboard.TextEntry(TF2.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F3":
-                    try { inp.Keyboard.TextEntry(TF3.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F4":
-                    try { inp.Keyboard.TextEntry(TF4.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F5":
-                    try { inp.Keyboard.TextEntry(TF5.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F6":
-                    try { inp.Keyboard.TextEntry(TF6.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F7":
-                    try { inp.Keyboard.TextEntry(TF7.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F8":
-                    try { inp.Keyboard.TextEntry(TF8.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F9":
-                    try { inp.Keyboard.TextEntry(TF9.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F10":
-                    try { inp.Keyboard.TextEntry(TF10.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F11":
-                    try { inp.Keyboard.TextEntry(TF11.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
-                case "F12":
-                    try { inp.Keyboard.TextEntry(TF12.Text).Sleep(200); }
-                    catch (System.ArgumentException) { }
-                    inp.Keyboard.KeyPress(ret);
-                    break;
+                Settings.Default[property.Name] = _textBoxes[counter++].Text;
+                Settings.Default.Save();
             }
         }
 
-        public Visibility Visible //Returns Visible
+        private void _listener_OnKeyPressed(object sender, KeyPressedArgs e)
         {
-            get { return Visibility.Visible; }
-        }
+            int key = -1;
+            string pressedKey = e.KeyPressed.ToString();
+            if (pressedKey.Contains("F"))
+                int.TryParse(pressedKey.Replace("F", ""), out key);
 
-        public Visibility Collapsed //Returns Collapsed
-        {
-            get { return Visibility.Collapsed; }
+            //Tries typing string and pressing the Return key
+            if (key >= 1 && key <= 12 && !string.IsNullOrEmpty(_textBoxes[key - 1].Text))
+                try { inp.Keyboard.TextEntry(_textBoxes[key - 1].Text); inp.Keyboard.KeyPress(VirtualKeyCode.RETURN); }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
         public void CollapseTexts() //Collapses all textboxes at once
         {
-            var x = Collapsed;
-
-            TF1.Visibility = x;
-            TF2.Visibility = x;
-            TF3.Visibility = x;
-            TF4.Visibility = x;
-            TF5.Visibility = x;
-            TF6.Visibility = x;
-            TF7.Visibility = x;
-            TF8.Visibility = x;
-            TF9.Visibility = x;
-            TF10.Visibility = x;
-            TF11.Visibility = x;
-            TF12.Visibility = x;
+            foreach (TextBox textBox in _textBoxes)
+                textBox.Visibility = Collapsed;
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int Index = ComboBox.SelectedIndex; //Gets the index of the selected ComboBox
-            var y = Visible;
             HabboImageHome.Visibility = Collapsed; //Collapses the initial picture in the main window
             CollapseTexts(); //Collapses every textbox
 
-            if (AboutTabContent.IsVisible == true) //If the about window was selected, collapses the About window in order to clear out the space for the textboxes to be displayed
-            {
+            //If the about window was selected, collapses the About window in order to clear out the space for the textboxes to be displayed
+            if (AboutTabContent.IsVisible)
                 AboutTabContent.Visibility = Collapsed;
-            }
 
             TextBoxes.Visibility = Visible; //Visibility of the StackPanel TextBoxes is set to Visible
-            switch (Index) //Depending on the index Given, one of the textboxes will be set to Visible
-            {
-                case 0:
-                    TF1.Visibility = y;
-                    break;
-                case 1:
-                    TF2.Visibility = y;
-                    break;
-                case 2:
-                    TF3.Visibility = y;
-                    break;
-                case 3:
-                    TF4.Visibility = y;
-                    break;
-                case 4:
-                    TF5.Visibility = y;
-                    break;
-                case 5:
-                    TF6.Visibility = y;
-                    break;
-                case 6:
-                    TF7.Visibility = y;
-                    break;
-                case 7:
-                    TF8.Visibility = y;
-                    break;
-                case 8:
-                    TF9.Visibility = y;
-                    break;
-                case 9:
-                    TF10.Visibility = y;
-                    break;
-                case 10:
-                    TF11.Visibility = y;
-                    break;
-                case 11:
-                    TF12.Visibility = y;
-                    break;
-            }
+
+            if (ComboBox.SelectedIndex != -1)
+                _textBoxes[ComboBox.SelectedIndex].Visibility = Visible;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) //About Button, Collapses everything to display the About Content and resets the combobox index
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //About Button, Collapses everything to display the About Content and resets the combobox index
             ComboBox.SelectedIndex = -1;
             TextBoxes.Visibility = Collapsed;
             HabboImageHome.Visibility = Collapsed;
             AboutTabContent.Visibility = Visible;
-        }
-
-        private void TextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            Process.Start("https://kirtle.eu");
-        }
-
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
         }
     }
 }

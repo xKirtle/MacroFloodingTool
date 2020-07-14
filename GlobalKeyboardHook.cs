@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 
-namespace Flood
+namespace MacroFloodingTool
 {
     public class LowLevelKeyboardListener
     {
